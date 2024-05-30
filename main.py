@@ -66,11 +66,11 @@ def graphs2():
 
 # Расчет СКО (билинейного Z-преобразования и ИИХ) для разного шага дискретизации
 def standard_deviation(T_range):
-    bilinear_std = []
-    invariance_str = []
+    bilinear_std_list = []
+    invariance_std_list = []
     for T in T_range:
         N = t_mod / T
-        print(f'Шаг: {T=}\nКол-во отсчетов:{round(N)}')
+        print(f'Шаг: {T=:}\nКол-во отсчетов:{round(N)}')
         nT = np.arange(N) * T
         # Создаем входной сигнал для нового T
         input_signal = np.heaviside(nT, 0)
@@ -80,9 +80,13 @@ def standard_deviation(T_range):
         model_bilinear_output_signal = bilinear_z_transformation(input_signal, T)
         model_invariance_output_signal = invariance_impulse_response(input_signal, T)
         # Считаем СКО
-        bilinear_std.append(np.std(output_signal - model_bilinear_output_signal))
-        invariance_str.append(np.std(output_signal - model_invariance_output_signal))
-    return bilinear_std, invariance_str
+        bilinear_std = np.std(output_signal - model_bilinear_output_signal)
+        bilinear_std_list.append(bilinear_std)
+        invariance_std = np.std(output_signal - model_invariance_output_signal)
+        invariance_std_list.append(invariance_std)
+        print(f'Отклонение для билинейного Z-преобразования: {bilinear_std}')
+        print(f'Отклонение для инвариантной импульсной характеристики: {invariance_std}')
+    return bilinear_std_list, invariance_std_list
 
 # Графики СКО
 def graphs3():

@@ -65,10 +65,10 @@ def graphs2():
     plt.show()
 
 # Расчет СКО (билинейного Z-преобразования и ИИХ) для разного шага дискретизации
-def standard_deviation():
+def standard_deviation(T_range):
     bilinear_std = []
     invariance_str = []
-    for T in [tau / divider for divider in (10, 100, 1000, 10_000)]:
+    for T in T_range:
         N = t_mod / T
         print(f'Шаг: {T=}\nКол-во отсчетов:{round(N)}')
         nT = np.arange(N) * T
@@ -87,7 +87,7 @@ def standard_deviation():
 # Графики СКО
 def graphs3():
     T_range = [tau / divider for divider in (10, 100, 1000, 10_000)]
-    bilinear_std, invariance_std = standard_deviation()
+    bilinear_std, invariance_std = standard_deviation(T_range)
     fig, ax = plt.subplots()
     ax.plot(T_range, bilinear_std, 'o-', label='Билинейное Z-преобразование')
     ax.plot(T_range, invariance_std, 'x-', label='Инвариантная ИХ')
